@@ -55,7 +55,9 @@ const diagnosticsOptions = {
 
 const CodeEditor = lazy(
   () =>
-    import("@src/components/CodeEditor" /* webpackChunkName: "CodeEditor" */)
+    import(
+      "@src/components/CodeEditor" /* webpackChunkName: "CodeEditor" */
+    )
 );
 
 const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
@@ -71,16 +73,9 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
   useEffect(() => {
     if (!settings.rowyRunUrl) openRowyRunModal({ feature: "Action fields" });
-  }, [settings.rowyRunUrl]);
+  }, [settings.rowyRunUrl, openRowyRunModal]);
 
-  // const [activeStep, setActiveStep] = useState<
-  //   "requirements" | "friction" | "action" | "undo" | "customization"
-  // >("requirements");
   const functionBodyOnly = compatibleRowyRunVersion!({ maxVersion: "1.3.10" });
-  // const steps =
-  //   config.isActionScript && get(config, "undo.enabled")
-  //     ? ["requirements", "friction", "action", "undo", "customization"]
-  //     : ["requirements", "friction", "action", "customization"];
 
   const columnOptions = tableColumnsOrdered
     .map((c) => ({
@@ -93,7 +88,9 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
     Array.isArray(config.params) ? config.params : [],
     { space: 2 }
   );
-  const [codeErrorMessage, setCodeErrorMessage] = useState<string | null>(null);
+  const [codeErrorMessage, setCodeErrorMessage] = useState<string | null>(
+    null
+  );
 
   const scriptExtraLibs = [
     [
@@ -116,8 +113,6 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
     actionDefs,
   ];
 
-  // Backwards-compatibility: previously user could set `confirmation` without
-  // having to set `friction: confirmation`
   const showConfirmationField =
     config.friction === "confirmation" ||
     (!config.friction &&
@@ -143,6 +138,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
     ${get(config, "undo.script")}
   }`
     : UNDO_ACTION_TEMPLATE;
+
   return (
     <SteppedAccordion
       steps={[
